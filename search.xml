@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>如何将博客部署到云服务器</title>
+    <url>/2020/03/21/AliyunDeploymentTutorial/</url>
+    <content><![CDATA[<p>经过我的一番研究，终于成功将博客部署的自己的服务器而不是依赖于github或者gite了，现在来一期域名购买到服务器配置到博客部署的教程。目前用的是阿里云。</p>
+<a id="more"></a>
+
+<h2 id="视频教程"><a href="#视频教程" class="headerlink" title="视频教程"></a><a href="https://www.bilibili.com/video/av98268129" target="_blank" rel="noopener">视频教程</a></h2>
+
+<div style="position: relative;width: 100%;height: 0;padding-bottom: 75%;"><iframe src="//player.bilibili.com/player.html?aid=98268129&cid=167751008&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"style="position: absolute; width: 100%; height:100%; left: 0; top:0;"> 
+ </iframe>
+</div>
+
+
+<h2 id="1-安装nginx"><a href="#1-安装nginx" class="headerlink" title="1.安装nginx"></a>1.安装nginx</h2><h3 id="1-1安装gcc-gcc-c"><a href="#1-1安装gcc-gcc-c" class="headerlink" title="1.1安装gcc gcc-c++"></a>1.1安装gcc gcc-c++</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ yum install -y gcc gcc-c++</span><br></pre></td></tr></table></figure>
+<h3 id="1-2安装PCRE库"><a href="#1-2安装PCRE库" class="headerlink" title="1.2安装PCRE库"></a>1.2安装PCRE库</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">$ cd &#x2F;usr&#x2F;local&#x2F;</span><br><span class="line"></span><br><span class="line">$ wget http:&#x2F;&#x2F;downloads.sourceforge.net&#x2F;project&#x2F;pcre&#x2F;pcre&#x2F;8.37&#x2F;pcre-8.37.tar.gz</span><br><span class="line"></span><br><span class="line">$ tar -xvf pcre-8.37.tar.gz</span><br><span class="line"></span><br><span class="line">$ cd pcre-8.37</span><br><span class="line"></span><br><span class="line">$ .&#x2F;configure</span><br><span class="line"></span><br><span class="line">$ make &amp;&amp; make install</span><br><span class="line"></span><br><span class="line">$ pcre-config --version</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="1-3安装-openssl-、zlib-、-gcc-依赖"><a href="#1-3安装-openssl-、zlib-、-gcc-依赖" class="headerlink" title="1.3安装 openssl 、zlib 、 gcc 依赖"></a>1.3安装 openssl 、zlib 、 gcc 依赖</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">$ yum -y install make zlib zlib-devel gcc-c++ libtool openssl openssl-devel</span><br><span class="line"> </span><br></pre></td></tr></table></figure>
+<h3 id="1-4安装nginx"><a href="#1-4安装nginx" class="headerlink" title="1.4安装nginx"></a>1.4安装nginx</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">$ cd ..</span><br><span class="line"></span><br><span class="line">$ wget http:&#x2F;&#x2F;nginx.org&#x2F;download&#x2F;nginx-1.17.9.tar.gz</span><br><span class="line"></span><br><span class="line">$ tar -xvf nginx-1.17.9.tar.gz</span><br><span class="line"></span><br><span class="line">$ cd nginx-1.17.9</span><br><span class="line"></span><br><span class="line">$ .&#x2F;configure</span><br><span class="line"></span><br><span class="line">$ make &amp;&amp; make install</span><br><span class="line"> </span><br></pre></td></tr></table></figure>
+
+
+
+
+<p>修改配置文件<br>root /home/www/website;</p>
+<h2 id="2-安装Git以及Node-js"><a href="#2-安装Git以及Node-js" class="headerlink" title="2.安装Git以及Node.js"></a>2.安装Git以及Node.js</h2><h3 id="2-1安装Node-js"><a href="#2-1安装Node-js" class="headerlink" title="2.1安装Node.js"></a>2.1安装Node.js</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">curl -sL https:&#x2F;&#x2F;rpm.nodesource.com&#x2F;setup_10.x | bash -</span><br><span class="line"></span><br><span class="line">yum install -y nodejs</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>查看是否成功</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">$ node -v</span><br><span class="line"></span><br><span class="line">$ npm -v</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h3 id="2-2安装Git及配置仓库"><a href="#2-2安装Git及配置仓库" class="headerlink" title="2.2安装Git及配置仓库"></a>2.2安装Git及配置仓库</h3><p>安装git及新建git用户</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">yum install git</span><br><span class="line"></span><br><span class="line">adduser git</span><br><span class="line"></span><br><span class="line">chmod 740 &#x2F;etc&#x2F;sudoers</span><br><span class="line"></span><br><span class="line">vi &#x2F;etc&#x2F;sudoers</span><br><span class="line"></span><br><span class="line">添加 git ALL&#x3D;(ALL) ALL</span><br><span class="line"></span><br><span class="line">chmod 400 &#x2F;etc&#x2F;sudoers</span><br><span class="line"></span><br><span class="line">sudo passwd git</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>切换git用户</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">su git</span><br><span class="line"></span><br><span class="line">cd ~</span><br><span class="line"></span><br><span class="line">mkdir .ssh</span><br><span class="line"></span><br><span class="line">cd .ssh</span><br><span class="line"></span><br><span class="line">ssh-keygen</span><br><span class="line"></span><br><span class="line">vi authorized_keys</span><br><span class="line"></span><br><span class="line">chmod 600 ~&#x2F;.ssh&#x2F;authorized_keys</span><br><span class="line"></span><br><span class="line">chmod 700 ~&#x2F;.ssh</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>创建git仓库</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">cd ~</span><br><span class="line"></span><br><span class="line">git init --bare blog.git</span><br><span class="line"></span><br><span class="line">vi ~&#x2F;blog.git&#x2F;hooks&#x2F;post-receive</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">输入</span><br><span class="line">git --work-tree&#x3D;&#x2F;home&#x2F;www&#x2F;website --git-dir&#x3D;&#x2F;home&#x2F;git&#x2F;blog.git checkout -f</span><br><span class="line">保存退出</span><br><span class="line"></span><br><span class="line">chmod +x ~&#x2F;blog.git&#x2F;hooks&#x2F;post-receive</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>新建/home/www/website文件夹</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">su root</span><br><span class="line"></span><br><span class="line">输入密码</span><br><span class="line"></span><br><span class="line">cd &#x2F;home</span><br><span class="line"></span><br><span class="line">mkdir www</span><br><span class="line"></span><br><span class="line">cd www</span><br><span class="line"></span><br><span class="line">mkdir website</span><br><span class="line"></span><br><span class="line">修改文件夹权限 这步很重要 视频中没有提及</span><br><span class="line"></span><br><span class="line">chmod 777 &#x2F;home&#x2F;www&#x2F;website</span><br><span class="line"></span><br><span class="line">chmod 777 &#x2F;home&#x2F;www</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<p>在本地电脑输入</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">ssh -v git@服务器的公网ip</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<p>修改本地配置文件<br>repo: git@这里改为服务器公网IP:/home/git/blog.git</p>
+<h3 id="写入启动脚本"><a href="#写入启动脚本" class="headerlink" title="写入启动脚本"></a>写入启动脚本</h3><p>在/etc/init.d/路径下添加脚本文件，名称为nginx，内容如下</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line">#Startup script for the nginx Web Server</span><br><span class="line">#chkconfig: 2345 85 15</span><br><span class="line">nginx&#x3D;&#x2F;usr&#x2F;local&#x2F;nginx&#x2F;sbin&#x2F;nginx</span><br><span class="line">conf&#x3D;&#x2F;usr&#x2F;local&#x2F;nginx&#x2F;conf&#x2F;nginx.conf</span><br><span class="line">case $1 in </span><br><span class="line">start)</span><br><span class="line">echo -n &quot;Starting Nginx&quot;</span><br><span class="line">$nginx -c $conf</span><br><span class="line">echo &quot; done.&quot;</span><br><span class="line">;;</span><br><span class="line">stop)</span><br><span class="line">echo -n &quot;Stopping Nginx&quot;</span><br><span class="line">killall -9 nginx</span><br><span class="line">echo &quot; done.&quot;</span><br><span class="line">;;</span><br><span class="line">test)</span><br><span class="line">$nginx -t -c $conf</span><br><span class="line">echo &quot;Success.&quot;</span><br><span class="line">;;</span><br><span class="line">reload)</span><br><span class="line">echo -n &quot;Reloading Nginx&quot;</span><br><span class="line">ps auxww | grep nginx | grep master | awk &#39;&#123;print $2&#125;&#39; | xargs kill -HUP</span><br><span class="line">echo &quot; done.&quot;</span><br><span class="line">;;</span><br><span class="line">restart)</span><br><span class="line">$nginx -s reload</span><br><span class="line">echo &quot;reload done.&quot;</span><br><span class="line">;;</span><br><span class="line">*)</span><br><span class="line">echo &quot;Usage: $0 &#123;start|restart|reload|stop|test|show&#125;&quot;</span><br><span class="line">;;</span><br><span class="line">esac</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>然后执行</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">chmod +x nginx</span><br></pre></td></tr></table></figure>
+
+<p>控制指令<br>启动service nginx start<br>停止service nginx stop<br>重启service nginx reload</p>
+<h1 id="后续有问题可以在视频下留言大家一起讨论"><a href="#后续有问题可以在视频下留言大家一起讨论" class="headerlink" title="后续有问题可以在视频下留言大家一起讨论"></a>后续有问题可以在视频下留言大家一起讨论</h1><h2 id="问题解决"><a href="#问题解决" class="headerlink" title="问题解决"></a>问题解决</h2><p>部署时候一直输入密码报错Can’t open /dev/tty: No such device or address Error (Linux)解决办法</p>
+<p>由于之前的线上服务器替换过ip地址，导致线下服务器crontab在拉取备份日志时日志里记录了如下问题</p>
+<p>注意：<br>查找服务器端问题一定要查看日志，不能靠猜，例如ssh的问题可以多加-vvv参数来具体排查问题</p>
+<p>原因<br>线上服务器进行了ip地址的修改，开始出现Host key verification failed的时候，以为删除自己的know_hosts文件即可，但是没有解决本质问题，所以察看日志很重要</p>
+<p>解决方法</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">mknod -m 644 &#x2F;dev&#x2F;tty c 5 0</span><br><span class="line"></span><br><span class="line">chmod o+rw &#x2F;dev&#x2F;tty</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>公私钥认证<br>解决了上面的问题，发现之前由于不清楚原因搞乱了.ssh目录的权限，无法公私钥认证登陆，这里记录一下权限设置：</p>
+<p>~/.ssh目录的权限必须是0700<br>~/.ssh/authorized_keys文件权限必须是0600</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">chmod 600 ~&#x2F;.ssh&#x2F;authorized_keys</span><br><span class="line"></span><br><span class="line">chmod 700 ~&#x2F;.ssh</span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>教程</category>
+      </categories>
+      <tags>
+        <tag>博客</tag>
+        <tag>Blog</tag>
+        <tag>阿里云</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>从零带你搭建代理服务器</title>
+    <url>/2020/03/12/ProxyServer/</url>
+    <content><![CDATA[<p>之前也是应邀答应做一期搭建代理服务器的教程，现在也算是有一点时间了。我在这里呢，打算分为两个部分讲解，第一部分呢，是一些基础知识和原理的一些说明。这样一方面呢，可以让你出现问题更好的排查。另一方面呢，可以让你在更换其他的方法之后可以更快的上手。因为现在的这个技术发展是非常快的。<br>好的，我们开始正题。</p>
+<a id="more"></a>
+
+<h1 id="在翻墙的过程中发表不当言论真的会被查水表，这不是危言耸听，很多的案例也不难打听，大家谨言慎行。切记不可涉政，不可造谣传谣。"><a href="#在翻墙的过程中发表不当言论真的会被查水表，这不是危言耸听，很多的案例也不难打听，大家谨言慎行。切记不可涉政，不可造谣传谣。" class="headerlink" title="在翻墙的过程中发表不当言论真的会被查水表，这不是危言耸听，很多的案例也不难打听，大家谨言慎行。切记不可涉政，不可造谣传谣。"></a>在翻墙的过程中发表不当言论真的会被查水表，这不是危言耸听，很多的案例也不难打听，大家谨言慎行。切记不可涉政，不可造谣传谣。</h1><h2 id="1-背景知识及基本原理"><a href="#1-背景知识及基本原理" class="headerlink" title="1.背景知识及基本原理"></a>1.背景知识及基本原理</h2><h3 id="1-1什么是linux"><a href="#1-1什么是linux" class="headerlink" title="1.1什么是linux"></a>1.1什么是linux</h3><p>linux简要的来说呢，就是一个操作系统。像是我们平常接触到的有windows操作系统，还有mac操作系统，Linux也是一样的，它也是一个操作系统。只是这个操作系统呢稍微有一点不一样。它的所有执行不像我们的其他操作系统一样是窗口化的，而是要全部通过指令来执行。而你得到的回馈也会是指令形式。当然并不是说里面是没有图形化的操系统，很多的人呢，也会在inux中安装一些图形化的插件。 但是一般不会这么做，因为使用命令的形式更为直观和稳定。<br>现在呢，Linux有很多的发行版本，像是centos,debian,ubuntu。其实他们本质上并没有什么太大的区别，用什么都一样，但是呢，可能里面有些指令，包括他们的不同版本的更新会使这个系统的特性有些区别。而我们再安装程序的时候不同的版本可能会有细微差别。Linux操作系统最大的应用，就是在服务器的搭建上。基本上现在很多的服务器全都是基于Linux系统的。</p>
+<h3 id="1-2什么是服务器"><a href="#1-2什么是服务器" class="headerlink" title="1.2什么是服务器"></a>1.2什么是服务器</h3><p>简单的来说啊，服务器就是一个计算机。只是这个计算机呢，由运营商来提供24小时不间断的运行。为什么要这样做呢？因为我们呀，比如像是在搭建网站的时候，需要一直保证我们的数据可以被别人浏览。那么我们就需要一直提供我们的数据。如果这些数据存在自己的电脑上，那你的电脑就要一直开着，来供给别人下载。这样显然是不现实的。所以呢，我们就需要把我们的所有数据都储存到服务器上。而这些服务器它是24小时工作的。一般呢，这些服务器我们是接触不到的，他在离我们很远的地方。所以这个时候我们就需要用远程的管理工具来控制我们的服务器。</p>
+<h3 id="1-3域名和服务器的ip地址"><a href="#1-3域名和服务器的ip地址" class="headerlink" title="1.3域名和服务器的ip地址"></a>1.3域名和服务器的ip地址</h3><p>当我们压在运营商那边购买了一个服务器之后，它呢一般会自动给你搭建好linux系统。而我们要想去访问这个，你每次操作系统就必须要知道他的地址是什么。而这个地址就是ip，形如192.168.1.1。当我们知道了服务器的ip之后，在浏览器直接输入这个域名就可以访问我们的服务器，如果服务器上搭建了一个网站，那么就会显示这个网站。<br>由于ip数字太长了。不方便人们记忆。所以这个时候呢域名就出现了，形如<em><a href="http://www.baidu.com" target="_blank" rel="noopener">www.baidu.com</a></em>我们把域名和ip绑定的过程称为域名解析。实际上域名又分为一级域名和二级域名等等。那么一级域名和二级域名有什么区别呢。我们从域名的发行商购买了一个域名之后会是这样的，比如yuming.com。这就是一个一级域名，然后呢我们可以对这个一级域名进行操作，调用出一个二级域名，比如aa.yuming.com这时候我们就多了一个域名可以使用。</p>
+<h3 id="1-4通过服务器实现境外访问及技术发展史"><a href="#1-4通过服务器实现境外访问及技术发展史" class="headerlink" title="1.4通过服务器实现境外访问及技术发展史"></a>1.4通过服务器实现境外访问及技术发展史</h3><p>具体原理我不在详细讲解，讲深了你们听不懂，讲浅了，又没意思，讲的更深呢，我又不会。可以简单理想象成，我们在境外的服务通过软件和我们本地连接然后我们就可以绕过GFW（中国长城防火墙）。而最早呢很多人使用ss这个软件，后来源码被竞争对手泄露，导致流量特征被完全识别，而后出现了ssr，这两个其实都差不多，作者都被请去喝茶，所以目前由爱好者在github上进行维护，ssr主要是基于socks5。但是由于近期gwf升级ssr的流量特征也已经被识别再次使用ssr的话会直接导致服务器的ip或者端口被封掉，而且封禁速度很快，甚至导致很多机场全部挂掉。后来啊出现了v2ray，在ssr基础上出现了加密 协议 混淆，更加难以被识别，但是我个人使用的时候出现了阻断，使用一会会被限流。所以后来我使用了WS+TLS+DNSSEC的方法，在配置域名和证书之后可以是流量模拟为正常访问网站。这种方法也是目前最稳的方法，而软件方面则使用了trojan。</p>
+<h2 id="2-前期准备及相关软件介绍"><a href="#2-前期准备及相关软件介绍" class="headerlink" title="2.前期准备及相关软件介绍"></a>2.前期准备及相关软件介绍</h2><h3 id="2-1服务器的选择购买和配置"><a href="#2-1服务器的选择购买和配置" class="headerlink" title="2.1服务器的选择购买和配置"></a>2.1服务器的选择购买和配置</h3><p>服务器也叫vps。我在这里使用的是vultr提供的服务器，因为他在ip被墙之后可以把服务器删除重新搭建，然后分配新的ip。市面上还有很多的vps是不能更换ip的，买完了就定了，像是搬瓦工用的也是比较多。<br>1.打开<a href="https://www.vultr.com/" target="_blank" rel="noopener">vultr官网</a>进行注册登录<br>登录之后呢页面如下<img src="/pic/Snipaste_2020-03-12_10-14-43.png" alt=""><br>然后需要向账户充值10美元之后服务器的费用从其中扣除，支持支付宝。<br><img src="/pic/Snipaste_2020-03-12_10-36-43.png" alt=""><br>2.充值完成之后点击右上角加号，进入新建服务器界面。<br><img src="/pic/20200312103851.png" alt=""></p>
+<p><strong>这里需要注意第二步选择是服务器的位置，目前美国的基本上都被封了。选择日本的我在天津用联通的网，网络状况良好。</strong><br><img src="/pic/Snipaste_2020-03-12_11-06-16.png" alt=""><br>然后等待服务器搭建好了就可以了。现在呢，我们获得了一个服务器，并且安装了linux操作系统，我们需要连接上这个服务器。<br>这里需要点进去服务器<br><img src="/pic/Snipaste_2020-03-12_11-08-30.png" alt=""><br>记下ip和密码之后我们在本地电脑输入win+r，在弹出的框框中输入cmd，在cmd中输入以下指令</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ping 你刚才服务器的ip</span><br></pre></td></tr></table></figure>
+<p>如果返回不是请求超时就说明可以。返回是请求超时说明这个ip被墙了。需要重复第2步新建服务器。<br><img src="/pic/Snipaste_2020-03-12_11-13-46.png" alt=""><br>我这样就是被墙了。<br>我在新建一个，<strong>注意新建的时候不要删除当前的，因为可能新建还会被分配到当前ip，等新建完了在删除当前的，删除之后就不扣费了。</strong><br><strong><em>注意注意注意，有的国家的服务器比较便宜，但是只支持ipv6，所以不能购买！！！！</em></strong><br><strong><em>注意注意注意，有的国家的服务器比较便宜，但是只支持ipv6，所以不能购买！！！！</em></strong><br><strong><em>注意注意注意，有的国家的服务器比较便宜，但是只支持ipv6，所以不能购买！！！！</em></strong><br>好，成功了<br><img src="/pic/Snipaste_2020-03-12_11-23-56.png" alt=""></p>
+<h3 id="2-2域名的购买"><a href="#2-2域名的购买" class="headerlink" title="2.2域名的购买"></a>2.2域名的购买</h3><p>我这里用的是<a href="https://dcc.godaddy.com/" target="_blank" rel="noopener">godaddy</a>这个网站。支持支付宝便宜的域名9快钱一年，需要续费的话重新购买就行了，也可以找一些免费的域名网站，我不做过多介绍了，这个域名解析做起来比较简单。其他的呢你们可以自己做域名解析也可以，百度都有教程。<br>购买完成之后呢到这个界面选择管理dns<br><img src="/pic/Snipaste_2020-03-12_11-37-37.png" alt=""><br>在记录页面的右下角点击添加，设置如图。<br><img src="/pic/Snipaste_2020-03-12_11-40-24.png" alt=""><br>这样域名解析完毕。<br>我们测试一下。<br>打开cmd输入</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ping 你刚买的域名</span><br></pre></td></tr></table></figure>
+<p>返回时有返回值且域名后面跟这你的服务器ip则成功，<br>这里我们在建立一个二级域名，在搭建梯子的时候使用二级域名。<br>还是在这里选择添加<br><img src="/pic/Snipaste_2020-03-12_11-48-28.png" alt=""></p>
+<p><strong>最后的二级域名就是haha.你自己买的域名</strong></p>
+<p>好，到这里我们的域名配置也完成。下面我们进行连接服务器。</p>
+<h3 id="2-3服务器的连接"><a href="#2-3服务器的连接" class="headerlink" title="2.3服务器的连接"></a>2.3服务器的连接</h3><p>这里我们在我们的本地电脑需要借助一个软件SecureCRT具体怎么安装和破解我就不过多介绍了，我在网上随便找了个<a href="https://www.jianshu.com/p/2bfd1fbf31bc" target="_blank" rel="noopener">教程</a>。<br>打开securecrt点击快速连接<br><img src="/pic/Snipaste_2020-03-12_11-00-15.png" alt=""><br>之后点击同意<br><img src="/pic/Snipaste_2020-03-12_11-25-43.png" alt=""><br>然后输入密码并保存密码<br><img src="/pic/Snipaste_2020-03-12_11-25-59.png" alt=""><br>登录成功。<br><img src="/pic/Snipaste_2020-03-12_11-27-55.png" alt=""></p>
+<h3 id="2-4通过远程连接在服务器上利用脚本搭建代理"><a href="#2-4通过远程连接在服务器上利用脚本搭建代理" class="headerlink" title="2.4通过远程连接在服务器上利用脚本搭建代理"></a>2.4通过远程连接在服务器上利用脚本搭建代理</h3><p>SecureCRT连接好之后呢我们在SecureCRT中输入以下代码（SecureCRT中粘贴是右键，不是ctrl+v）如果发现不能删除东西访问<a href="https://blog.csdn.net/u010816580/article/details/85261686" target="_blank" rel="noopener">SecureCRT Backspace/delete 键失效的解决方法</a></p>
+<p>SecureCRT如果长时间不输入会断开连接，无法输入东西，重新连接一下就好了。</p>
+<h4 id="2-4-1安装-wget-我们用的debian，选择第一个"><a href="#2-4-1安装-wget-我们用的debian，选择第一个" class="headerlink" title="2.4.1安装 wget  我们用的debian，选择第一个"></a>2.4.1安装 wget  我们用的debian，选择第一个</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">apt-get install wget   ##Debian Ubuntu 安装 wget</span><br><span class="line">yum -y install wget    ##ContOS Yum 安装 wget</span><br></pre></td></tr></table></figure>
+<h4 id="2-4-2安装脚本，输入指令"><a href="#2-4-2安装脚本，输入指令" class="headerlink" title="2.4.2安装脚本，输入指令"></a>2.4.2安装脚本，输入指令</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">wget -N --no-check-certificate -q -O trojan_install.sh &quot;https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;V2RaySSR&#x2F;Trojan&#x2F;master&#x2F;trojan_install.sh&quot; &amp;&amp; chmod +x trojan_install.sh &amp;&amp; bash trojan_install.sh</span><br></pre></td></tr></table></figure>
+<p>在这里也是对脚本制作的大佬们致敬啊。<br><strong><em>注意这里内容一个空格都不能多输入，不然会出错。</em></strong><br><strong><em>注意这里内容一个空格都不能多输入，不然会出错。</em></strong><br><strong><em>注意这里内容一个空格都不能多输入，不然会出错。</em></strong></p>
+<hr>
+<p>如果哪里出现错误，重新执行第2.4.2步脚本即可。</p>
+<hr>
+<p>随后按照内容提示走，选择1按回车。（安装throjan）</p>
+<p>提示输入域名，则输入你的二级域名</p>
+<p>等待成功（如果提示证书申请失败的话则需要在第2.4.2部输入指令之后选择3修复证书，切记不要频繁操作，每个域名每天可以申请证书的次数有限。）</p>
+<p>成功之后提示如图<br><img src="/pic/Snipaste_2020-03-12_12-28-42.png" alt=""><br>我们要将里面的内容全部复制下来。保存好。<strong><em>一定要保存好</em></strong></p>
+<hr>
+<p>随后我们再次执行上面第2.4.2步的脚本指令。<br>这次输入4按回车（安装加速）<br>选择2（安装bbrplas内核）</p>
+<p>弹出的蓝色界面选择no</p>
+<p>提示是否重启vps<br>选择y</p>
+<hr>
+<p>等待重启之后远程软件重新连接<br>再次运行2.4.2的安装脚本<br>还是选择4<br>然后选择7（使用bbrplas加速）</p>
+<hr>
+<p>好，到这里梯子就搭好了</p>
+<h2 id="怎么使用梯子翻墙"><a href="#怎么使用梯子翻墙" class="headerlink" title="怎么使用梯子翻墙"></a>怎么使用梯子翻墙</h2><p>1.电脑用户 </p>
+<p>第一步 找到之前上面保存好的连接中的这个连接，并访问</p>
+<p>Windows客户端下载：。。。。。。</p>
+<p>MacOS客户端下载：。。。。。。。<br>下载下来的压缩包</p>
+<p>解压之后 找到start 然后双击他 注意 现在进程在后台已经开始运行了 看不见没关系 <strong><em>注意 注意 注意 以后每次翻墙都要先运行这个start</em></strong></p>
+<p>第二部</p>
+<p>打开v2rayn</p>
+<p>v2ray win端下载地址</p>
+<p><a href="https://github.com/2dust/v2rayN/releases" target="_blank" rel="noopener">https://github.com/2dust/v2rayN/releases</a> 打开后点击assets</p>
+<p>下载v2rayN-Core.zip 解压后直接运行v2rayN.exe</p>
+<p>mac端下载地址</p>
+<p><a href="https://github.com/yanue/V2rayU/releases" target="_blank" rel="noopener">https://github.com/yanue/V2rayU/releases</a> 打开后点击assets</p>
+<p>运行之后呢 还是在上边 服务器 添加socks 地址 127.0.0.1 端口 1080 其他不管 确定</p>
+<p>右键点击电脑右下角的v2ray图标 选择http代理→开启pac并自动配置pac</p>
+<p>右键点击电脑右下角的v2ray图标 选择服务器→刚才添加进的服务器（应该只有一个）</p>
+<p>成功了</p>
+<p>2.手机用户 打开</p>
+<p><a href="https://github.com/trojan-gfw/igniter/releases" target="_blank" rel="noopener">https://github.com/trojan-gfw/igniter/releases</a> 打开后点击assets</p>
+<p>下载app-debug.apk 安装</p>
+<p>打开软件 第一行填写 你自己的二级域名</p>
+<p>第二行填写443</p>
+<p>第三行填写一个密码  密码在上面电脑配置的压缩包中解压后找到config文件里password一项</p>
+<p>关掉enable ipv6 关掉 verify certificate 打开bypass那个</p>
+<p>点击start</p>
+<p>成功</p>
+<h1 id="提示"><a href="#提示" class="headerlink" title="提示"></a>提示</h1><p><strong>访问世界网络时</strong></p>
+<p><strong>要严守政治纪律和政治规矩。必须牢固树立政治意识、大局意识、核心意识、看齐意识，坚决维护党中央权威，在思想上政治上行动上始终同以习近平同志为核心的党中央保持高度一致。严格遵守党规党纪，模范遵守国家法律法规，在网络行为中坚持正确政治方向，自觉宣传党的理论和路线方针政策，积极践行社会主义核心价值观，传播正能量、弘扬主旋律，共筑网上网下同心圆。</strong></p>
+<p><strong>不准参与以下网络传播行为：</strong></p>
+<p><strong>发表违背党的基本路线，否定四项基本原则，歪曲党的政策，或者其他有严重政治问题的文章、演说、宣言、声明等；妄议中央大政方针，破坏党的集中统一；丑化党和国家形象，诋毁、污蔑党和国家领导人，歪曲党史、国史、军史，抹黑革命先烈和英雄模范；制造、传播各类谣言特别是政治类谣言，散布所谓“内部”消息和小道消息；出版、购买、传播非法出版物；宣扬封建迷信、淫秽色情；制作、传播其他有严重问题的文章、言论、音视频等信息内容。</strong></p>
+<p><strong>要认真贯彻落实《党委（党组）意识形态工作责任制实施办法》以及《党委（党组）形态工作责任制实施细则》。</strong></p>
+]]></content>
+      <categories>
+        <category>教程</category>
+      </categories>
+      <tags>
+        <tag>trojan</tag>
+        <tag>vpn</tag>
+        <tag>翻墙</tag>
+        <tag>vultr</tag>
+        <tag>ssr</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>从0开始拥有你自己的博客（windows10）</title>
+    <url>/2020/03/09/BlogTutorial/</url>
+    <content><![CDATA[<p>好了，趁热的博客搭建教程来了，这两天博客的搭建我可算是滚瓜烂熟了，本来从因为之前部署到github上在国内访问比较慢，打算直接部署到服务器上的。结果从阿里云搞了个服务器，弄了一天也没调通。重点是根本不知道哪里出了问题，虽说在服务器上没搞成功，但是博客的搭建却烂熟于心了。</p>
+<a id="more"></a>
+
+<h2 id="视频教程"><a href="#视频教程" class="headerlink" title="视频教程"></a><a href="https://www.bilibili.com/video/av95485330" target="_blank" rel="noopener">视频教程</a></h2>
+
+<div style="position: relative;width: 100%;height: 0;padding-bottom: 75%;">
+<iframe src="//player.bilibili.com/player.html?aid=95485330&cid=163013088&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"
+style="position: absolute; width: 100%; height:100%; left: 0; top:0;"> 
+ </iframe>
+</div>
+
+
+<h2 id="1-环境的准备"><a href="#1-环境的准备" class="headerlink" title="1.环境的准备"></a>1.环境的准备</h2><h3 id="1-1服务器环境"><a href="#1-1服务器环境" class="headerlink" title="1.1服务器环境"></a>1.1服务器环境</h3><p>由于部署到github上，这里就不做介绍服务器相关的了，另外我在说一下部署到gitee上的方法，都差不多的。所以下面注册账号按需求注册，github的服务器在国外，国内访问较慢，可能会出现打不开的情况。gitee在国内，访问比较快。但是每次修改网站重新部署之后都要登录gitee手动同步gitee pages，网站才会修改。</p>
+<h4 id="1-1-1github账号的配置"><a href="#1-1-1github账号的配置" class="headerlink" title="1.1.1github账号的配置"></a>1.1.1github账号的配置</h4><p>1.访问<a href="https://www.github.com" target="_blank" rel="noopener">github官网</a>。<br>2.点击右上角注册。</p>
+<p><img src="/pic/Snipaste_2020-03-10_00-00-30.png" alt=""><br><strong>注意这里的用户名最好考虑清楚在填写，以后不可更改且是域名的一部分。</strong></p>
+<p>3.输入用户名和密码。<br>注册完成记住账号密码就好了。</p>
+<p>4注册成功之后登录到github首页上，点击右上角加号选择新建一个仓库。<br><img src="/pic/Snipaste_2020-03-11_09-42-07.png" alt=""><br>这里如果你的登录界面不在这里，自行寻找新建仓库。（New repository）。<br>如图操作<br><img src="/pic/Snipaste_2020-03-11_09-53-29.png" alt=""></p>
+<p>创建完成之后是这个界面<br><img src="/pic/Snipaste_2020-03-11_09-59-54.png" alt=""></p>
+<p>点击右上方setting<br><img src="/pic/Snipaste_2020-03-11_10-12-23.png" alt=""></p>
+<p>向下滑动找到github pages 有如下提示则为成功。<br><img src="/pic/Snipaste_2020-03-11_10-11-48.png" alt=""></p>
+<p>github的配置到这里就结束了。</p>
+<h4 id="1-1-2gitee账号的配置"><a href="#1-1-2gitee账号的配置" class="headerlink" title="1.1.2gitee账号的配置"></a>1.1.2gitee账号的配置</h4><p>1.访问<a href="https://www.gitee.com" target="_blank" rel="noopener">gitee(码云)</a>。<br>2.点击右上角注册。</p>
+<p><img src="/pic/Snipaste_2020-03-10_00-07-26.png" alt=""></p>
+<p><img src="/pic/Snipaste_2020-03-10_00-07-40.png" alt=""><br><strong>同样，这里的这里的空间域名地址最好考虑清楚在填写，以后不可更改且是域名的一部分。</strong></p>
+<p>3.手机或者邮箱注册都可以注册完成记住账号密码就好了。</p>
+<p>4.这里与github类似，也是进去先建立一个仓库。</p>
+<p><img src="/pic/Snipaste_2020-03-11_10-21-02.png" alt=""></p>
+<p><img src="/pic/Snipaste_2020-03-11_10-33-50.png" alt=""><br>然后直接拉到最下边创建即可</p>
+<p>创建成功之后同样复制这个地址待用。我也忘了上传文件之后会不会不显示了。先粘贴下来吧。<br><img src="/pic/Snipaste_2020-03-11_10-36-47.png" alt=""></p>
+<p>gitee的配置也到此结束。</p>
+<h3 id="1-2本地环境"><a href="#1-2本地环境" class="headerlink" title="1.2本地环境"></a>1.2本地环境</h3><p>博客主体基于hexo框架，本地需要安装git环境、以及nodejs。</p>
+<h4 id="1-2-1git环境的安装"><a href="#1-2-1git环境的安装" class="headerlink" title="1.2.1git环境的安装"></a>1.2.1git环境的安装</h4><p>这个很简单，下载一个安装包一路下一步就好了。<br>在这里我放了一个<a href="https://blog.csdn.net/huangqqdy/article/details/83032408" target="_blank" rel="noopener">教程</a>，可以参照安装。<br>这个教程还提及了配置ssh密钥的方法（里面的二.环境的配置），这里大家嫌麻烦可以不进行配置，只是后边同步的时候需要输入github的用户名和密码。<br><strong>如果使用的是gitee（码云）的话把公钥添加到这</strong><br><img src="/pic/Snipaste_2020-03-11_10-57-14.png" alt=""></p>
+<p>添加方法实际上就是用记事本打开id_rsa.pub，把里面的内容复制粘贴到github或者gitee上就好了。</p>
+<h4 id="1-2-2nodejs的安装"><a href="#1-2-2nodejs的安装" class="headerlink" title="1.2.2nodejs的安装"></a>1.2.2nodejs的安装</h4><p>1.打开nodejs官网<a href="https://nodejs.org" target="_blank" rel="noopener">nodejs官网</a>。<br><img src="/pic/Snipaste_2020-03-11_11-06-59.png" alt=""><br>下载安装一路下一步即可。<br>2检查是否安装<br>win+R输入cmd，打开命令行<br>输入node -v  返回版本号即安装成功<br>输入npm -v 返回版本号即安装成功</p>
+<h2 id="2-hexo的安装及博客的部署"><a href="#2-hexo的安装及博客的部署" class="headerlink" title="2.hexo的安装及博客的部署"></a>2.hexo的安装及博客的部署</h2><h3 id="2-1hexo的安装"><a href="#2-1hexo的安装" class="headerlink" title="2.1hexo的安装"></a>2.1hexo的安装</h3><p>按win+r弹出的框输入cmd回车弹出命令提示符。输入以下指令回车。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">npm install -g cnpm --registry&#x3D;https:&#x2F;&#x2F;registry.npm.taobao.org</span><br><span class="line">cnpm install hexo-cli -g</span><br></pre></td></tr></table></figure>
+<p>命令提示符默认打开位置在c盘然后我们在自己的其他盘建立个文件夹名字自己取然后输入以下指令（我假设我在d盘建立文件夹名字为123）</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">d:</span><br><span class="line">cd 123</span><br></pre></td></tr></table></figure>
+<p>注意这里  cd命令的作用就是进入某个文件夹。而从c盘到d盘需要不可以直接cd命令需要先输入你的相应盘符加冒号回车。<br>然后使用hexo命令</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo init</span><br></pre></td></tr></table></figure>
+<p>等待完成。<br>完成提示</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">INFO  Start blogging with Hexo!</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<hr>
+<p>好到了这里呢博客就算是基本搭建完成。我们的博客相关文件都存放在233这个文件夹中。这里介绍一下。</p>
+<p><img src="/pic/Snipaste_2020-03-11_13-35-22.png" alt=""></p>
+<h3 id="2-2hexo的部署"><a href="#2-2hexo的部署" class="headerlink" title="2.2hexo的部署"></a>2.2hexo的部署</h3><p>继续用cmd命令提示符，且需要保证在你自己建立的文件夹路径下，我在233文件夹。<br>输入</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo s</span><br></pre></td></tr></table></figure>
+<p>提示</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">INFO  Start processing</span><br><span class="line">INFO  Hexo is running at http:&#x2F;&#x2F;localhost:4000 . Press Ctrl+C to stop.</span><br></pre></td></tr></table></figure>
+
+<p>在浏览器打开提示的</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">http:&#x2F;&#x2F;localhost:4000</span><br></pre></td></tr></table></figure>
+<p>就可以访问博客了，这个是他默认带的一篇博客，之后需要自己再去编写。</p>
+<p>那么如何把这个默认的墨客部署到github上让别人访问呢。<br>首先我们打开233文件夹中的_config.yml这个文件。<br>这里呢打开这个文件用记事本也可以，我在这里推荐Visual Studio Code这个轻量的软件，编写博客也可以用它。</p>
+<p>打开_config.yml这个文件<br>找到最下面</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># Deployment</span><br><span class="line">## Docs: https:&#x2F;&#x2F;hexo.io&#x2F;docs&#x2F;deployment.html</span><br><span class="line">deploy:</span><br><span class="line">  type: &#39;&#39;</span><br></pre></td></tr></table></figure>
+<p>修改如下</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: 前面让大家保存好的的链接用的github就复制github的用的gitee的就复制gitee的</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
+
+<p>然后用命令提示符，还是在233路径下。输入以下指令安装插件。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
+
+
+<p>安装完成之后用下面两个指令进行部署。（第一个是生成本地静态文件，第二个是发送到github。）</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">hexo g</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
+
+<p>部署过程中可能会提示让你登录github ，直接输入注册的账号和密码就好了。<br>如果通过github的部署的话，直接通过域名【你的用户名.github.io】访问即可。</p>
+<p>如果是通过gitee（码云）还需要登录码云。找到自己的仓库，在服务下的gitee pages选项。</p>
+<p><img src="/pic/Snipaste_2020-03-11_13-13-11.png" alt=""><br>点击启动<br><img src="/pic/Snipaste_2020-03-11_13-16-26.png" alt=""></p>
+<p><strong>且每次部署都需要来这里更新一下。</strong></p>
+<h2 id="3-博客主题的安装及修改"><a href="#3-博客主题的安装及修改" class="headerlink" title="3.博客主题的安装及修改"></a>3.博客主题的安装及修改</h2><p>打开<a href="https://hexo.io/zh-cn/" target="_blank" rel="noopener">hexo官网</a></p>
+<h1 id="这一部分我放在视频里讲解吧。插图太麻烦了。"><a href="#这一部分我放在视频里讲解吧。插图太麻烦了。" class="headerlink" title="这一部分我放在视频里讲解吧。插图太麻烦了。"></a>这一部分我放在视频里讲解吧。插图太麻烦了。</h1><p>教程到此结束</p>
+]]></content>
+      <categories>
+        <category>教程</category>
+      </categories>
+      <tags>
+        <tag>github</tag>
+        <tag>博客</tag>
+        <tag>Blog</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>我的博客可算是搭建成功了</title>
+    <url>/2020/03/07/%E5%BF%83%E5%BE%97/</url>
+    <content><![CDATA[<h2 id="博客的初构建"><a href="#博客的初构建" class="headerlink" title="博客的初构建"></a>博客的初构建</h2><p>从最初的想法，到后来的实践，到后来的搭建完成。历时两天，共28个小时。艰辛坎坷啊，好在这是之前搭建服务器有着一点linux基本常识啊。确实不是专业学前端的，搞起来还头疼。我这个人学东西还喜欢从原理学起，Double的精力啊。看到标题搭建二字就知道事情不简单啊。</p>
+<h2 id="博客的部署及内容的排版布局"><a href="#博客的部署及内容的排版布局" class="headerlink" title="博客的部署及内容的排版布局"></a>博客的部署及内容的排版布局</h2><p>其实我个认为搭建博客本身还不是最难的，最难的应该还是界面ui的布局了。hexo博客刚搭起来的时候可以说是相当简洁，甚至可以说是凄惨了。默认的排版布局自然是不可能直接拿过来应<a id="more"></a>用，这时候还需要去hexo的模板库挑选合适的模板，定下模板之后就避免不了对其内容的修改，其实搭建博客和搭建网站的操作已经很相似了。所以在修改元素时候难免要用到亿点点前端知识，从html到css到js基本上都是成套出现的，甚至一些评论模块，字数统计等等相关模块的配置，都是一个繁琐的过程。好在可以在github上与相关的开发者进行交流。</p>
+<h2 id="搭建成功之后"><a href="#搭建成功之后" class="headerlink" title="搭建成功之后"></a>搭建成功之后</h2><p>你以为搭建成功之后就可以为所欲为了吗，Naive！</p>
+<p>博客的书写当然不是直接用word打字就完事了，现在博客的文本编辑模式基本上还是基于markdown的，其实就书写本身来说markdown确实是一个挺好用的语言，不用体会去排版的烦恼的，可以纯粹的集中精力去对内容进行编排，但是上手起来确实是需要一个适应的时间的。有一说一嗷，当你真正去使用markdown去编辑内容的话，你一定会爱上他的。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这两天完全投入到博客的搭建上去了，自己的很多计划安排被打乱，估计又是几个不眠夜啊。当日事，当日毕，还是要紧遵的。</p>
+<p>目前的最首要任务还是手头opencv的一个图像识别的算法，以及之前落下的功课需要追回，同时计算机等级考试和四六级还不能放下，我当时为什么犯二计算机报了三科呢，得回这波疫情托一手。最近又在组织学校的电赛。还有很多的相关事宜，分身乏术啊。</p>
+<p>之后我可能会趁热抓紧出一个搭建博客的教程，真·带你从零基础搭建博客。哈哈哈哈哈哈哈哈哈绝对真，我就是零基础。</p>
+<p>之前还答应要出一个搭建服务器的教程，哎呦，我想想都头疼。看吧 争取这个月之内完事hhhhhhhhh。</p>
+<p><em>可以看到页面的排版布局还是比较生疏，确实还需要适应的过程吧。感觉要不是学校的论文需要用word格式，完全可以用markdown来写。</em></p>
+<p>这玩意怎么能多敲几行回车呢。。。。。。。。。。。。。</p>
+]]></content>
+      <categories>
+        <category>心得</category>
+      </categories>
+      <tags>
+        <tag>博客搭建成功的感想</tag>
+      </tags>
+  </entry>
+</search>
