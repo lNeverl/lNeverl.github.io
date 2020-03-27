@@ -265,7 +265,7 @@ style="position: absolute; width: 100%; height:100%; left: 0; top:0;">
   </entry>
   <entry>
     <title>如何给你的博客配置ssl证书</title>
-    <url>/2020/03/07/%E6%A8%A1%E6%9D%BF/</url>
+    <url>/2020/03/07/sslCertificate/</url>
     <content><![CDATA[<p>在我们的博客搭建好了之后呢，通过域名访问会提示不安全，那么怎么解决这个问题呢。我们可以通过对我们的域名申请ssl证书来解决。还是以视频为主，这个文字更多的是一些用到的指令的罗列吧。</p>
 <a id="more"></a>
 
