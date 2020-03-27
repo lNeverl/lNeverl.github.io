@@ -28,7 +28,7 @@
 <p>查询版本 </p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;usr&#x2F;local&#x2F;nginx&#x2F;sbin&#x2F;nginx -V</span><br></pre></td></tr></table></figure>
 <p>进入解包路径</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">.&#x2F;configure --with-http_ssl_module</span><br><span class="line"></span><br><span class="line">make </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">.&#x2F;configure --prefix&#x3D;&#x2F;opt&#x2F;software&#x2F;nginx --with-http_stub_status_module --with-http_ssl_module</span><br><span class="line"></span><br><span class="line">make </span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>如果报错</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">yum -y install openssl openssl-devel</span><br></pre></td></tr></table></figure>
