@@ -263,4 +263,93 @@ style="position: absolute; width: 100%; height:100%; left: 0; top:0;">
         <tag>博客搭建成功的感想</tag>
       </tags>
   </entry>
+  <entry>
+    <title>如何给你的博客配置ssl证书</title>
+    <url>/2020/03/07/%E6%A8%A1%E6%9D%BF/</url>
+    <content><![CDATA[<p>在我们的博客搭建好了之后呢，通过域名访问会提示不安全，那么怎么解决这个问题呢。我们可以通过对我们的域名申请ssl证书来解决。还是以视频为主，这个文字更多的是一些用到的指令的罗列吧。</p>
+<a id="more"></a>
+
+<p>首先，新建目录etc/ssl</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mkdir etc&#x2F;ssl</span><br></pre></td></tr></table></figure>
+
+<p>看看你的nginx安装路径</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ps -ef | grep nginx</span><br></pre></td></tr></table></figure>
+
+<p>编辑confg文件</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">vim &#x2F;usr&#x2F;local&#x2F;nginx&#x2F;conf&#x2F;nginx.conf</span><br></pre></td></tr></table></figure>
+
+
+
+<p>参数如下</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">http&#123;</span><br><span class="line">    #http节点中可以添加多个server节点</span><br><span class="line">    server&#123;</span><br><span class="line">        #监听443端口</span><br><span class="line">        listen 443;</span><br><span class="line">        </span><br><span class="line">        server_name 你的域名;</span><br><span class="line">        ssl on;</span><br><span class="line">        ssl_certificate &#x2F;etc&#x2F;ssl&#x2F;1.crt.pem;</span><br><span class="line">        ssl_certificate_key &#x2F;etc&#x2F;ssl&#x2F;1.key;</span><br><span class="line">        ssl_session_timeout 5m;</span><br><span class="line">        ssl_protocols TLSv1 TLSv1.1 TLSv1.2;</span><br><span class="line">        ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:HIGH:!aNULL:!MD5:!RC4:!DHE;</span><br><span class="line">        ssl_prefer_server_ciphers on;</span><br><span class="line">        #这是我的主页访问地址，因为使用的是静态的html网页，所以直接使用location就可以完成了。</span><br><span class="line">        location &#x2F; &#123;</span><br><span class="line">                #文件夹</span><br><span class="line">                root &#x2F;usr&#x2F;local&#x2F;service&#x2F;ROOT;</span><br><span class="line">                #主页文件</span><br><span class="line">                index index.html;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    server&#123;</span><br><span class="line">        listen 80;</span><br><span class="line">        server_name 你的域名;</span><br><span class="line">        rewrite ^&#x2F;(.*)$ https:&#x2F;&#x2F;你的域名:443&#x2F;$1 permanent;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>重启nginx</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">service nginx restart</span><br></pre></td></tr></table></figure>
+
+
+<p>如果报错</p>
+<p>查询版本 </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;usr&#x2F;local&#x2F;nginx&#x2F;sbin&#x2F;nginx -V</span><br></pre></td></tr></table></figure>
+<p>进入解包路径</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">.&#x2F;configure --with-http_ssl_module</span><br><span class="line"></span><br><span class="line">make </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>如果报错</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">yum -y install openssl openssl-devel</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">cp &#x2F;usr&#x2F;local&#x2F;nginx&#x2F;sbin&#x2F;nginx &#x2F;usr&#x2F;local&#x2F;nginx&#x2F;sbin&#x2F;nginx.bak</span><br><span class="line"></span><br><span class="line">cp objs&#x2F;nginx &#x2F;usr&#x2F;local&#x2F;nginx&#x2F;sbin&#x2F;nginx</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<p>我在这里插入一张图片<img src="/pic/test.png" alt="zheshiduide"></p>
+<p><a href="https://www.github.com" target="_blank" rel="noopener">github官网</a></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[rectangle setX: 10 y: 10 width: 20 height: 20];</span><br></pre></td></tr></table></figure>
+
+
+<p>视频</p>
+
+
+<div style="position: relative;width: 100%;height: 0;padding-bottom: 75%;">
+<iframe src="//player.bilibili.com/player.html?aid=98268129&cid=167751008&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"
+style="position: absolute; width: 100%; height:100%; left: 0; top:0;"> 
+ </iframe>
+</div>
+
+]]></content>
+      <categories>
+        <category>教程</category>
+      </categories>
+      <tags>
+        <tag>博客</tag>
+        <tag>Blog</tag>
+        <tag>ssl证书</tag>
+        <tag>https</tag>
+      </tags>
+  </entry>
 </search>
