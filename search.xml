@@ -9,9 +9,8 @@
 <p>首先，新建目录etc/ssl</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mkdir etc&#x2F;ssl</span><br></pre></td></tr></table></figure>
 
-<p>看看你的nginx安装路径</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ps -ef | grep nginx</span><br></pre></td></tr></table></figure>
 
+<p>删除nginx文件夹  直接重新安装</p>
 <p>编辑confg文件</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">vim &#x2F;usr&#x2F;local&#x2F;nginx&#x2F;conf&#x2F;nginx.conf</span><br></pre></td></tr></table></figure>
 
