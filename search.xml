@@ -65,23 +65,32 @@
 </div>
 
 
-<h2 id="1-安装nginx"><a href="#1-安装nginx" class="headerlink" title="1.安装nginx"></a>1.安装nginx</h2><h3 id="1-1安装gcc-gcc-c"><a href="#1-1安装gcc-gcc-c" class="headerlink" title="1.1安装gcc gcc-c++"></a>1.1安装gcc gcc-c++</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">yum install -y gcc gcc-c++</span><br></pre></td></tr></table></figure>
+<h2 id="1-安装nginx"><a href="#1-安装nginx" class="headerlink" title="1.安装nginx"></a>1.安装nginx</h2><p>安装ngin需要相关的依赖库，我们先进行库的安装。</p>
+<h3 id="1-1安装gcc-gcc-c"><a href="#1-1安装gcc-gcc-c" class="headerlink" title="1.1安装gcc gcc-c++"></a>1.1安装gcc gcc-c++</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">yum install -y gcc gcc-c++</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <h3 id="1-2安装PCRE库"><a href="#1-2安装PCRE库" class="headerlink" title="1.2安装PCRE库"></a>1.2安装PCRE库</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">cd &#x2F;usr&#x2F;local&#x2F;</span><br><span class="line"></span><br><span class="line">wget http:&#x2F;&#x2F;downloads.sourceforge.net&#x2F;project&#x2F;pcre&#x2F;pcre&#x2F;8.37&#x2F;pcre-8.37.tar.gz</span><br><span class="line"></span><br><span class="line">tar -xvf pcre-8.37.tar.gz</span><br><span class="line"></span><br><span class="line">cd pcre-8.37</span><br><span class="line"></span><br><span class="line">.&#x2F;configure</span><br><span class="line"></span><br><span class="line">make &amp;&amp; make install</span><br><span class="line"></span><br><span class="line">pcre-config --version</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <h3 id="1-3安装-openssl-、zlib-、-gcc-依赖"><a href="#1-3安装-openssl-、zlib-、-gcc-依赖" class="headerlink" title="1.3安装 openssl 、zlib 、 gcc 依赖"></a>1.3安装 openssl 、zlib 、 gcc 依赖</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">yum -y install make zlib zlib-devel gcc-c++ libtool openssl openssl-devel</span><br><span class="line"> </span><br></pre></td></tr></table></figure>
-<h3 id="1-4安装nginx"><a href="#1-4安装nginx" class="headerlink" title="1.4安装nginx"></a>1.4安装nginx</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">cd ..</span><br><span class="line"></span><br><span class="line">wget http:&#x2F;&#x2F;nginx.org&#x2F;download&#x2F;nginx-1.17.9.tar.gz</span><br><span class="line"></span><br><span class="line">tar -xvf nginx-1.17.9.tar.gz</span><br><span class="line"></span><br><span class="line">cd nginx-1.17.9</span><br><span class="line"></span><br><span class="line">.&#x2F;configure</span><br><span class="line"></span><br><span class="line">make &amp;&amp; make install</span><br><span class="line"> </span><br></pre></td></tr></table></figure>
+
+<h3 id="1-4安装nginx"><a href="#1-4安装nginx" class="headerlink" title="1.4安装nginx"></a>1.4安装nginx</h3><p><strong>安装nginx一定要在local文件夹下</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">cd &#x2F;usr&#x2F;local&#x2F;</span><br><span class="line"></span><br><span class="line">wget http:&#x2F;&#x2F;nginx.org&#x2F;download&#x2F;nginx-1.17.9.tar.gz</span><br><span class="line"></span><br><span class="line">tar -xvf nginx-1.17.9.tar.gz</span><br><span class="line"></span><br><span class="line">cd nginx-1.17.9</span><br><span class="line"></span><br><span class="line">.&#x2F;configure</span><br><span class="line"></span><br><span class="line">make &amp;&amp; make install</span><br><span class="line"> </span><br></pre></td></tr></table></figure>
 
 
 
 
-<p>修改配置文件<br>root /home/www/website;</p>
+<p><strong>修改配置文件server  80  端口下的root项  为/home/www/website;</strong></p>
+<p><img src="https://gitee.com/lNeverl/pic/raw/master/20200330115739.png" alt=""></p>
 <h2 id="2-安装Git以及Node-js"><a href="#2-安装Git以及Node-js" class="headerlink" title="2.安装Git以及Node.js"></a>2.安装Git以及Node.js</h2><h3 id="2-1安装Node-js"><a href="#2-1安装Node-js" class="headerlink" title="2.1安装Node.js"></a>2.1安装Node.js</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">curl -sL https:&#x2F;&#x2F;rpm.nodesource.com&#x2F;setup_10.x | bash -</span><br><span class="line"></span><br><span class="line">yum install -y nodejs</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>查看是否成功</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">node -v</span><br><span class="line"></span><br><span class="line">npm -v</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-
+<p>可以显示版本号即为成功</p>
+<p><img src="https://gitee.com/lNeverl/pic/raw/master/20200330120601.png" alt=""></p>
 <h3 id="2-2安装Git及配置仓库"><a href="#2-2安装Git及配置仓库" class="headerlink" title="2.2安装Git及配置仓库"></a>2.2安装Git及配置仓库</h3><p>安装git及新建git用户</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">yum install git</span><br><span class="line"></span><br><span class="line">adduser git</span><br><span class="line"></span><br><span class="line">chmod 740 &#x2F;etc&#x2F;sudoers</span><br><span class="line"></span><br><span class="line">vi &#x2F;etc&#x2F;sudoers</span><br><span class="line"></span><br><span class="line">添加 git ALL&#x3D;(ALL) ALL</span><br><span class="line"></span><br><span class="line">chmod 400 &#x2F;etc&#x2F;sudoers</span><br><span class="line"></span><br><span class="line">sudo passwd git</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">yum install git</span><br><span class="line"></span><br><span class="line">adduser git</span><br><span class="line"></span><br><span class="line">chmod 740 &#x2F;etc&#x2F;sudoers</span><br><span class="line"></span><br><span class="line">vi &#x2F;etc&#x2F;sudoers</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>在如下位置添加<br>git ALL=(ALL) ALL<br>vi指令执行之后按i进入输入模式<br>编辑完成之后按一下esc<br>然后输入:wq即可退出</p>
+<p><img src="https://gitee.com/lNeverl/pic/raw/master/20200330120825.png" alt=""></p>
+<p>执行以下指令更改文件夹权限</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">chmod 400 &#x2F;etc&#x2F;sudoers</span><br><span class="line"></span><br><span class="line">sudo passwd git</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>切换git用户</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">su git</span><br><span class="line"></span><br><span class="line">cd ~</span><br><span class="line"></span><br><span class="line">mkdir .ssh</span><br><span class="line"></span><br><span class="line">cd .ssh</span><br><span class="line"></span><br><span class="line">ssh-keygen</span><br><span class="line"></span><br><span class="line">vi authorized_keys</span><br><span class="line"></span><br><span class="line">chmod 600 ~&#x2F;.ssh&#x2F;authorized_keys</span><br><span class="line"></span><br><span class="line">chmod 700 ~&#x2F;.ssh</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
