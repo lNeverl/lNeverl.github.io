@@ -91,13 +91,15 @@
 <p><img src="https://gitee.com/lNeverl/pic/raw/master/20200330120825.png" alt=""></p>
 <p>执行以下指令更改文件夹权限</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">chmod 400 &#x2F;etc&#x2F;sudoers</span><br><span class="line"></span><br><span class="line">sudo passwd git</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>切换git用户</p>
+
+<p><strong>切换git用户并且建立密钥</strong></p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">su git</span><br><span class="line"></span><br><span class="line">cd ~</span><br><span class="line"></span><br><span class="line">mkdir .ssh</span><br><span class="line"></span><br><span class="line">cd .ssh</span><br><span class="line"></span><br><span class="line">ssh-keygen</span><br><span class="line"></span><br><span class="line">vi authorized_keys</span><br><span class="line"></span><br><span class="line">chmod 600 ~&#x2F;.ssh&#x2F;authorized_keys</span><br><span class="line"></span><br><span class="line">chmod 700 ~&#x2F;.ssh</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>创建git仓库</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">cd ~</span><br><span class="line"></span><br><span class="line">git init --bare blog.git</span><br><span class="line"></span><br><span class="line">vi ~&#x2F;blog.git&#x2F;hooks&#x2F;post-receive</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">输入</span><br><span class="line">git --work-tree&#x3D;&#x2F;home&#x2F;www&#x2F;website --git-dir&#x3D;&#x2F;home&#x2F;git&#x2F;blog.git checkout -f</span><br><span class="line">保存退出</span><br><span class="line"></span><br><span class="line">chmod +x ~&#x2F;blog.git&#x2F;hooks&#x2F;post-receive</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p>新建/home/www/website文件夹</p>
+<p>*以上指令都需要在su git 之后执行 如果中途断开重新连接过，需要重新执行 su git指令  进入git账户。</p>
+<p>新建/home/www/website文件夹<br>在root用户下执行，所限先su root切换为root账户</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">su root</span><br><span class="line"></span><br><span class="line">输入密码</span><br><span class="line"></span><br><span class="line">cd &#x2F;home</span><br><span class="line"></span><br><span class="line">mkdir www</span><br><span class="line"></span><br><span class="line">cd www</span><br><span class="line"></span><br><span class="line">mkdir website</span><br><span class="line"></span><br><span class="line">修改文件夹权限 这步很重要 视频中没有提及</span><br><span class="line"></span><br><span class="line">chmod 777 &#x2F;home&#x2F;www&#x2F;website</span><br><span class="line"></span><br><span class="line">chmod 777 &#x2F;home&#x2F;www</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 
@@ -105,7 +107,10 @@
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">ssh -v git@服务器的公网ip</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 
-<p>修改本地配置文件<br>repo: git@这里改为服务器公网IP:/home/git/blog.git</p>
+<p>返回如下则成功。<br><img src="https://gitee.com/lNeverl/pic/raw/master/20200330121546.png" alt=""></p>
+<p>修改本地配置文件</p>
+<p><img src="https://gitee.com/lNeverl/pic/raw/master/20200330121736.png" alt=""></p>
+<p>repo: git@这里改为服务器公网IP:/home/git/blog.git</p>
 <h3 id="写入启动脚本"><a href="#写入启动脚本" class="headerlink" title="写入启动脚本"></a>写入启动脚本</h3><p>在/etc/init.d/路径下添加脚本文件，名称为nginx，内容如下</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line">#Startup script for the nginx Web Server</span><br><span class="line">#chkconfig: 2345 85 15</span><br><span class="line">nginx&#x3D;&#x2F;usr&#x2F;local&#x2F;nginx&#x2F;sbin&#x2F;nginx</span><br><span class="line">conf&#x3D;&#x2F;usr&#x2F;local&#x2F;nginx&#x2F;conf&#x2F;nginx.conf</span><br><span class="line">case $1 in </span><br><span class="line">start)</span><br><span class="line">echo -n &quot;Starting Nginx&quot;</span><br><span class="line">$nginx -c $conf</span><br><span class="line">echo &quot; done.&quot;</span><br><span class="line">;;</span><br><span class="line">stop)</span><br><span class="line">echo -n &quot;Stopping Nginx&quot;</span><br><span class="line">killall -9 nginx</span><br><span class="line">echo &quot; done.&quot;</span><br><span class="line">;;</span><br><span class="line">test)</span><br><span class="line">$nginx -t -c $conf</span><br><span class="line">echo &quot;Success.&quot;</span><br><span class="line">;;</span><br><span class="line">reload)</span><br><span class="line">echo -n &quot;Reloading Nginx&quot;</span><br><span class="line">ps auxww | grep nginx | grep master | awk &#39;&#123;print $2&#125;&#39; | xargs kill -HUP</span><br><span class="line">echo &quot; done.&quot;</span><br><span class="line">;;</span><br><span class="line">restart)</span><br><span class="line">$nginx -s reload</span><br><span class="line">echo &quot;reload done.&quot;</span><br><span class="line">;;</span><br><span class="line">*)</span><br><span class="line">echo &quot;Usage: $0 &#123;start|restart|reload|stop|test|show&#125;&quot;</span><br><span class="line">;;</span><br><span class="line">esac</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
