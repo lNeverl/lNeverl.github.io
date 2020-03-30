@@ -62,7 +62,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">371字</span>
+            <span class="post-count">774字</span>
         </span>
     </span>
 
@@ -71,7 +71,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">1分钟</span>
+            <span class="post-count">3分钟</span>
         </span>
     </span>
 </div>
@@ -99,41 +99,52 @@
       <p>在我们的博客搭建好了之后呢，通过域名访问会提示不安全，那么怎么解决这个问题呢。我们可以通过对我们的域名申请ssl证书来解决。还是以视频为主，这个文字更多的是一些用到的指令的罗列吧。</p>
 <a id="more"></a>
 
-<p>首先，新建目录etc/ssl</p>
+<p>在开始之前我们要保证etc/ssl目录存在，用于保存我们的私钥和证书文件。</p>
+<p>没有则新建目录etc/ssl</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir etc&#x2F;ssl</span><br></pre></td></tr></table></figure>
 
-
-
-<p>编辑confg文件</p>
+<p>编辑nginx的配置文件</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim &#x2F;usr&#x2F;local&#x2F;nginx&#x2F;conf&#x2F;nginx.conf</span><br></pre></td></tr></table></figure>
 
 
 
-<p>参数如下</p>
+<p>需要调整以下参数或者直接应用配置文件中的模板，依次对照进行修改。</p>
+<p>注意  更改项前面的井号需要去除，井号代表注释，被注释的代码讲不会生效。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">http&#123;</span><br><span class="line">    #http节点中可以添加多个server节点</span><br><span class="line">    server&#123;</span><br><span class="line">        #监听443端口</span><br><span class="line">        listen 443;</span><br><span class="line">        </span><br><span class="line">        server_name 你的域名;</span><br><span class="line">        ssl on;</span><br><span class="line">        ssl_certificate &#x2F;etc&#x2F;ssl&#x2F;1.crt.pem;</span><br><span class="line">        ssl_certificate_key &#x2F;etc&#x2F;ssl&#x2F;1.key;</span><br><span class="line">        ssl_session_timeout 5m;</span><br><span class="line">        ssl_protocols TLSv1 TLSv1.1 TLSv1.2;</span><br><span class="line">        ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:HIGH:!aNULL:!MD5:!RC4:!DHE;</span><br><span class="line">        ssl_prefer_server_ciphers on;</span><br><span class="line">        #这是我的主页访问地址，因为使用的是静态的html网页，所以直接使用location就可以完成了。</span><br><span class="line">        location &#x2F; &#123;</span><br><span class="line">                #文件夹</span><br><span class="line">                root &#x2F;usr&#x2F;local&#x2F;service&#x2F;ROOT;</span><br><span class="line">                #主页文件</span><br><span class="line">                index index.html;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    server&#123;</span><br><span class="line">        listen 80;</span><br><span class="line">        server_name 你的域名;</span><br><span class="line">        rewrite ^&#x2F;(.*)$ https:&#x2F;&#x2F;你的域名:443&#x2F;$1 permanent;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>重启nginx</p>
+<p>每次更改配置文件都需要重启nginx服务。此时会报错，没关系，正常现象。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service nginx restart</span><br></pre></td></tr></table></figure>
 
-
-<p>如果报错</p>
+<p>此时会报错，没关系，正常现象。先保证nginx服务关闭。输入代码关闭服务。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service nginx stop</span><br></pre></td></tr></table></figure>
+<p>查看一下是不是真的关闭了，执行以下指令。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -lnpt</span><br></pre></td></tr></table></figure>
+<p>如果返回的数据中<strong>没有</strong>  80  和 443两个数字  则为关闭成功。</p>
+<p>我们需要安装ssl模块。</p>
+<p>如果之前ngxin的压缩包还在，那最好，不在了也没关系。我们重新下载对应版本的压缩包。</p>
 <p>查询版本 </p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;usr&#x2F;local&#x2F;nginx&#x2F;sbin&#x2F;nginx -V</span><br></pre></td></tr></table></figure>
-<p>进入解包路径</p>
+
+<p>去官网找到下载连接，进入/usr/local路径 使用指令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">wget 下载链接</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>下载并且解压（解压指令 tar -xvf 压缩包全名）</p>
+<p>进入解压后的文件夹路径执行指令</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">.&#x2F;configure --prefix&#x3D;&#x2F;usr&#x2F;local&#x2F;nginx --with-http_stub_status_module --with-http_ssl_module --with-file-aio --with-http_realip_module</span><br><span class="line"></span><br><span class="line">make </span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p>如果报错</p>
+<p>如果报错，按照我之前教程走的话这里不会报错，因为这个依赖我们安装了。报错的话执行下面的，不报错就算了，</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install openssl openssl-devel</span><br></pre></td></tr></table></figure>
 
-
+<p>继续执行下面的指令。将nginx启动文件覆盖。第一条指令是备份，</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">cp &#x2F;usr&#x2F;local&#x2F;nginx&#x2F;sbin&#x2F;nginx &#x2F;usr&#x2F;local&#x2F;nginx&#x2F;sbin&#x2F;nginx.bak</span><br><span class="line"></span><br><span class="line">cp objs&#x2F;nginx &#x2F;usr&#x2F;local&#x2F;nginx&#x2F;sbin&#x2F;nginx</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-
-
-
+<p>最后我们启动服务</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service nginx start</span><br></pre></td></tr></table></figure>
 
 <p>查看监听端口</p>
-<p>netstat -lnpt</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -lnpt</span><br></pre></td></tr></table></figure>
+
+<p>如果出现80 和 443端口则为成功</p>
+<p><strong>最后一定要去阿里云的安全组开放443端口，操作和开放80端口方法是一样的。</strong></p>
 
       
       <!-- reward -->
