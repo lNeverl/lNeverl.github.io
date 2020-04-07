@@ -2,7 +2,7 @@
 <search>
   <entry>
     <title>如何给你的博客配置ssl证书</title>
-    <url>/article/undefined.html</url>
+    <url>/posts/undefined.html</url>
     <content><![CDATA[<p>在我们的博客搭建好了之后呢，通过域名访问会提示不安全，那么怎么解决这个问题呢。我们可以通过对我们的域名申请ssl证书来解决。还是以视频为主，这个文字更多的是一些用到的指令的罗列吧。</p>
 <a id="more"></a>
 
@@ -65,7 +65,7 @@
   </entry>
   <entry>
     <title>如何将博客部署到云服务器</title>
-    <url>/article/undefined.html</url>
+    <url>/posts/undefined.html</url>
     <content><![CDATA[<p>经过我的一番研究，终于成功将博客部署的自己的服务器而不是依赖于github或者gite了，现在来一期域名购买到服务器配置到博客部署的教程。目前用的是阿里云。</p>
 <a id="more"></a>
 
@@ -153,7 +153,7 @@
   </entry>
   <entry>
     <title>从零带你搭建代理服务器</title>
-    <url>/article/undefined.html</url>
+    <url>/posts/undefined.html</url>
     <content><![CDATA[<p>之前也是应邀答应做一期搭建代理服务器的教程，现在也算是有一点时间了。我在这里呢，打算分为两个部分讲解，第一部分呢，是一些基础知识和原理的一些说明。这样一方面呢，可以让你出现问题更好的排查。另一方面呢，可以让你在更换其他的方法之后可以更快的上手。因为现在的这个技术发展是非常快的。<br>好的，我们开始正题。</p>
 <a id="more"></a>
 
@@ -235,7 +235,7 @@
   </entry>
   <entry>
     <title>从0开始拥有你自己的博客（windows10）</title>
-    <url>/article/undefined.html</url>
+    <url>/posts/undefined.html</url>
     <content><![CDATA[<p>好了，趁热的博客搭建教程来了，这两天博客的搭建我可算是滚瓜烂熟了，本来从因为之前部署到github上在国内访问比较慢，打算直接部署到服务器上的。结果从阿里云搞了个服务器，弄了一天也没调通。重点是根本不知道哪里出了问题，虽说在服务器上没搞成功，但是博客的搭建却烂熟于心了。</p>
 <a id="more"></a>
 
@@ -325,7 +325,7 @@ style="position: absolute; width: 100%; height:100%; left: 0; top:0;">
   </entry>
   <entry>
     <title>我的博客可算是搭建成功了</title>
-    <url>/article/undefined.html</url>
+    <url>/posts/undefined.html</url>
     <content><![CDATA[<h2 id="博客的初构建"><a href="#博客的初构建" class="headerlink" title="博客的初构建"></a>博客的初构建</h2><p>从最初的想法，到后来的实践，到后来的搭建完成。历时两天，共28个小时。艰辛坎坷啊，好在这是之前搭建服务器有着一点linux基本常识啊。确实不是专业学前端的，搞起来还头疼。我这个人学东西还喜欢从原理学起，Double的精力啊。看到标题搭建二字就知道事情不简单啊。</p>
 <h2 id="博客的部署及内容的排版布局"><a href="#博客的部署及内容的排版布局" class="headerlink" title="博客的部署及内容的排版布局"></a>博客的部署及内容的排版布局</h2><p>其实我个认为搭建博客本身还不是最难的，最难的应该还是界面ui的布局了。hexo博客刚搭起来的时候可以说是相当简洁，甚至可以说是凄惨了。默认的排版布局自然是不可能直接拿过来应<a id="more"></a>用，这时候还需要去hexo的模板库挑选合适的模板，定下模板之后就避免不了对其内容的修改，其实搭建博客和搭建网站的操作已经很相似了。所以在修改元素时候难免要用到亿点点前端知识，从html到css到js基本上都是成套出现的，甚至一些评论模块，字数统计等等相关模块的配置，都是一个繁琐的过程。好在可以在github上与相关的开发者进行交流。</p>
 <h2 id="搭建成功之后"><a href="#搭建成功之后" class="headerlink" title="搭建成功之后"></a>搭建成功之后</h2><p>你以为搭建成功之后就可以为所欲为了吗，Naive！</p>
