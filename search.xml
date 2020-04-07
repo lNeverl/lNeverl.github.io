@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>王文博</title>
+    <url>/posts/abf5fbd6.html</url>
+    <content><![CDATA[<p>hahah </p>
+]]></content>
+  </entry>
+  <entry>
     <title>如何给你的博客配置ssl证书</title>
     <url>/posts/da577fa8.html</url>
     <content><![CDATA[<p>在我们的博客搭建好了之后呢，通过域名访问会提示不安全，那么怎么解决这个问题呢。我们可以通过对我们的域名申请ssl证书来解决。还是以视频为主，这个文字更多的是一些用到的指令的罗列吧。</p>
