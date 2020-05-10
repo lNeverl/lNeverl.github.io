@@ -1,6 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>解决远程软件无法连接到谷歌服务器的问题</title>
+    <url>/posts/929dbc5e.html</url>
+    <content><![CDATA[<p>刚搭建好的谷歌服务器，通过远程软件连接可能会提示报错。<br>The client has disconnected from the server.Reason: Unable to authenticate using any of the configured authentication methods.<br>那么如何解决呢。<br>下面小编就带大家解决这个问题。<br>hhhhhhhhhh<br>一开口就知道老营销号了。</p>
+<a id="more"></a>
+
+
+
+
+<h1 id="1-给root用户设置密码"><a href="#1-给root用户设置密码" class="headerlink" title="1.给root用户设置密码"></a>1.给root用户设置密码</h1><p>打开谷歌浏览器自带的管理面板，输入命令：<br>1.切换至管理员</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo -i</span><br></pre></td></tr></table></figure>
+<p>2.设置密码</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">passwd</span><br></pre></td></tr></table></figure>
+<h1 id="2-开启SSH权限"><a href="#2-开启SSH权限" class="headerlink" title="2.开启SSH权限"></a>2.开启SSH权限</h1><p>1.编辑SSH配置文件/etc/ssh/sshd_config</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">vi &#x2F;etc&#x2F;ssh&#x2F;sshd_config</span><br></pre></td></tr></table></figure>
+<p>2.修改下面两项</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">PermitRootLogin yes           &#x2F;&#x2F;默认为no，需要开启root用户访问改为yes</span><br><span class="line">PasswordAuthentication yes    &#x2F;&#x2F;默认为no，改为yes开启密码登陆</span><br></pre></td></tr></table></figure>
+<h2 id="然后就可以通过远程软件连接了"><a href="#然后就可以通过远程软件连接了" class="headerlink" title="然后就可以通过远程软件连接了"></a>然后就可以通过远程软件连接了</h2>]]></content>
+      <categories>
+        <category>教程</category>
+        <category>心得</category>
+      </categories>
+      <tags>
+        <tag>教程</tag>
+        <tag>心得</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>linux学习笔记(1)-系统分区结构</title>
+    <url>/posts/85489a28.html</url>
+    <content><![CDATA[<p>linux的学习笔记(1)<br>系统分区结构</p>
+<a id="more"></a>
+
+<h2 id="一、系统分区，也叫磁盘分区。"><a href="#一、系统分区，也叫磁盘分区。" class="headerlink" title="一、系统分区，也叫磁盘分区。"></a>一、系统分区，也叫磁盘分区。</h2><h3 id="分区类型"><a href="#分区类型" class="headerlink" title="分区类型"></a>分区类型</h3><h4 id="1-主分区：最多四个"><a href="#1-主分区：最多四个" class="headerlink" title="1.主分区：最多四个"></a>1.主分区：最多四个</h4><h4 id="2-扩展分区"><a href="#2-扩展分区" class="headerlink" title="2.扩展分区"></a>2.扩展分区</h4><p>1.最多一个<br>2.主分区加扩展分区最多有四个<br>3.不能写入数据，只能包含逻辑分区</p>
+<h4 id="逻辑分区"><a href="#逻辑分区" class="headerlink" title="逻辑分区"></a>逻辑分区</h4><h3 id="分区结构描述"><a href="#分区结构描述" class="headerlink" title="分区结构描述"></a>分区结构描述</h3><p>假如有1234四个主分区<br>则我若想扩展出第五个分区需要将一个分区变为扩展分区<br>变成123+扩展分区的结构<br>而扩展分区中可以扩展出56789等等分区<br><strong>注意:就算主分区不够4个，扩展的逻辑分区也是从第五个开始</strong></p>
+<h2 id="二、格式化"><a href="#二、格式化" class="headerlink" title="二、格式化"></a>二、格式化</h2><h4 id="高级格式化"><a href="#高级格式化" class="headerlink" title="高级格式化"></a>高级格式化</h4><p>格式化（高级格式化）又称逻辑格式化，它是指根据用户选定的文件系统（如FAT16、FAT32、NTFS、EXT2、EXT3、EXT4等），在磁盘的特定区域写入特定数据，在分区中划出一片用于存放文件分配表、目录表等用于文件管理的磁盘空间。<br>linux使用的是ext4.</p>
+<h2 id="三、硬件设备文件名"><a href="#三、硬件设备文件名" class="headerlink" title="三、硬件设备文件名"></a>三、硬件设备文件名</h2><table>
+<thead>
+<tr>
+<th align="center">硬件</th>
+<th align="center">设备文件名</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">IDE硬盘</td>
+<td align="center">/dev/hd[a-d]</td>
+</tr>
+<tr>
+<td align="center">SCSI/SATA/USB硬盘</td>
+<td align="center">dev/sd [a-p]</td>
+</tr>
+<tr>
+<td align="center">光驱</td>
+<td align="center">/dev/ cdrom或/dev/sr0</td>
+</tr>
+<tr>
+<td align="center">软盘</td>
+<td align="center">/dev/fd[O-11]</td>
+</tr>
+<tr>
+<td align="center">打印机（25针）</td>
+<td align="center">/dev/lp[o-2]</td>
+</tr>
+<tr>
+<td align="center">打印机（USB）</td>
+<td align="center">/dev/usb/lp[0-15]</td>
+</tr>
+<tr>
+<td align="center">鼠标</td>
+<td align="center">/dev/mouse</td>
+</tr>
+<tr>
+<td align="center">分区设备文件名（硬盘中的分区显示）</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="center">文件名</td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="center">:—:</td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="center">/dev/hdal</td>
+</tr>
+<tr>
+<td align="center">dev/sal</td>
+<td align="center">SCSI硬盘接口、SATA硬盘接口</td>
+</tr>
+<tr>
+<td align="center"><strong>分区文件名就是在硬盘后边直接加数字</strong></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center"><em>sa1，hda1只是接口不同</em></td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+<h2 id="四、挂载"><a href="#四、挂载" class="headerlink" title="四、挂载"></a>四、挂载</h2><h4 id="必须分区"><a href="#必须分区" class="headerlink" title="必须分区"></a>必须分区</h4><p>“/“ 根分区<br>“swap” 交换分区，内存2倍，不超过2GB</p>
+<h4 id="推荐分区"><a href="#推荐分区" class="headerlink" title="推荐分区"></a>推荐分区</h4><p>“/boot” 启动分区，200MB</p>
+<h4 id="文件系统结构"><a href="#文件系统结构" class="headerlink" title="文件系统结构"></a>文件系统结构</h4><p><img src="https://gitee.com/lNeverl/pic/raw/master/20200504181221.png" alt="文件系统结构"></p>
+]]></content>
+      <categories>
+        <category>笔记</category>
+      </categories>
+      <tags>
+        <tag>心得</tag>
+        <tag>学习</tag>
+        <tag>笔记</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>如何给你的博客配置ssl证书</title>
     <url>/posts/da577fa8.html</url>
     <content><![CDATA[<p>在我们的博客搭建好了之后呢，通过域名访问会提示不安全，那么怎么解决这个问题呢。我们可以通过对我们的域名申请ssl证书来解决。还是以视频为主，这个文字更多的是一些用到的指令的罗列吧。</p>
@@ -240,7 +353,6 @@
 <a id="more"></a>
 
 <h2 id="视频教程"><a href="#视频教程" class="headerlink" title="视频教程"></a><a href="https://www.bilibili.com/video/av95485330" target="_blank" rel="noopener">视频教程</a></h2>
-
 <div style="position: relative;width: 100%;height: 0;padding-bottom: 75%;">
 <iframe src="//player.bilibili.com/player.html?aid=95485330&cid=163013088&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"
 style="position: absolute; width: 100%; height:100%; left: 0; top:0;"> 
