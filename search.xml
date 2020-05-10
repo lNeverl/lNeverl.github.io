@@ -304,6 +304,11 @@
 <p>等待重启之后远程软件重新连接<br>再次运行2.4.2的安装脚本<br>还是选择4<br>然后选择7（使用bbrplas加速）</p>
 <hr>
 <p>好，到这里梯子就搭好了</p>
+<h4 id="修改梯子密码"><a href="#修改梯子密码" class="headerlink" title="修改梯子密码"></a>修改梯子密码</h4><p>（不懂不要乱改，本地的和服务器上的密码都要对应更改）用vi指令打开<br>打开/usr/src/trojan/server.conf修改密码</p>
+<p>修改之后通过指令查看监听端口</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">netstat -lnpt</span><br><span class="line"></span><br><span class="line">kill -HUP 端口号  #使配置文件更改生效，指令严格区分大小写</span><br></pre></td></tr></table></figure>
+
+
 <h2 id="怎么使用梯子翻墙"><a href="#怎么使用梯子翻墙" class="headerlink" title="怎么使用梯子翻墙"></a>怎么使用梯子翻墙</h2><p>1.电脑用户 </p>
 <p>第一步 找到之前上面保存好的连接中的这个连接，并访问</p>
 <p>Windows客户端下载：。。。。。。</p>
