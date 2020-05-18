@@ -106,42 +106,7 @@
 <h2 id="一、系统分区，也叫磁盘分区。"><a href="#一、系统分区，也叫磁盘分区。" class="headerlink" title="一、系统分区，也叫磁盘分区。"></a>一、系统分区，也叫磁盘分区。</h2><h3 id="分区类型"><a href="#分区类型" class="headerlink" title="分区类型"></a>分区类型</h3><h4 id="1-主分区：最多四个"><a href="#1-主分区：最多四个" class="headerlink" title="1.主分区：最多四个"></a>1.主分区：最多四个</h4><h4 id="2-扩展分区"><a href="#2-扩展分区" class="headerlink" title="2.扩展分区"></a>2.扩展分区</h4><p>1.最多一个<br>2.主分区加扩展分区最多有四个<br>3.不能写入数据，只能包含逻辑分区</p>
 <h4 id="逻辑分区"><a href="#逻辑分区" class="headerlink" title="逻辑分区"></a>逻辑分区</h4><h3 id="分区结构描述"><a href="#分区结构描述" class="headerlink" title="分区结构描述"></a>分区结构描述</h3><p>假如有1234四个主分区<br>则我若想扩展出第五个分区需要将一个分区变为扩展分区<br>变成123+扩展分区的结构<br>而扩展分区中可以扩展出56789等等分区<br><strong>注意:就算主分区不够4个，扩展的逻辑分区也是从第五个开始</strong></p>
 <h2 id="二、格式化"><a href="#二、格式化" class="headerlink" title="二、格式化"></a>二、格式化</h2><h4 id="高级格式化"><a href="#高级格式化" class="headerlink" title="高级格式化"></a>高级格式化</h4><p>格式化（高级格式化）又称逻辑格式化，它是指根据用户选定的文件系统（如FAT16、FAT32、NTFS、EXT2、EXT3、EXT4等），在磁盘的特定区域写入特定数据，在分区中划出一片用于存放文件分配表、目录表等用于文件管理的磁盘空间。<br>linux使用的是ext4.</p>
-<h2 id="三、硬件设备文件名"><a href="#三、硬件设备文件名" class="headerlink" title="三、硬件设备文件名"></a>三、硬件设备文件名</h2><table>
-<thead>
-<tr>
-<th align="center">硬件</th>
-<th align="center">设备文件名</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">IDE硬盘</td>
-<td align="center">/dev/hd[a-d]</td>
-</tr>
-<tr>
-<td align="center">SCSI/SATA/USB硬盘</td>
-<td align="center">dev/sd [a-p]</td>
-</tr>
-<tr>
-<td align="center">光驱</td>
-<td align="center">/dev/ cdrom或/dev/sr0</td>
-</tr>
-<tr>
-<td align="center">软盘</td>
-<td align="center">/dev/fd[O-11]</td>
-</tr>
-<tr>
-<td align="center">打印机（25针）</td>
-<td align="center">/dev/lp[o-2]</td>
-</tr>
-<tr>
-<td align="center">打印机（USB）</td>
-<td align="center">/dev/usb/lp[0-15]</td>
-</tr>
-<tr>
-<td align="center">鼠标</td>
-<td align="center">/dev/mouse</td>
-</tr>
-</tbody></table>
+<h2 id="三、硬件设备文件名"><a href="#三、硬件设备文件名" class="headerlink" title="三、硬件设备文件名"></a>三、硬件设备文件名</h2><p>硬件|设备文件名<br>|:—:|:—:|<br>|IDE硬盘|/dev/hd[a-d]|<br>|SCSI/SATA/USB硬盘|dev/sd [a-p]|<br>|光驱|/dev/ cdrom或/dev/sr0|<br>|软盘|/dev/fd[O-11]|<br>|打印机（25针）|/dev/lp[o-2]|<br>|打印机（USB）|/dev/usb/lp[0-15]|<br>|鼠标|/dev/mouse|</p>
 <p>  分区设备文件名（硬盘中的分区显示）</p>
 <table>
 <thead>
