@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>
-    解决远程软件无法连接到谷歌服务器的问题 |  Never的个人博客
+    如何在安装上实现bilibili挂机脚本（php环境） |  Never的个人博客
   </title>
   <meta name="generator" content="hexo-theme-yilia-plus">
   
@@ -32,7 +32,7 @@
   <div id="app">
     <main class="content">
       <section class="outer">
-  <article id="post-远程软件如歌连接谷歌服务器" class="article article-type-post" itemscope
+  <article id="post-Termux实现安卓挂机bilibili" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
   <div class="article-inner">
@@ -40,7 +40,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  解决远程软件无法连接到谷歌服务器的问题
+  如何在安装上实现bilibili挂机脚本（php环境）
 </h1>
   
 
@@ -49,12 +49,12 @@
 
     
     <div class="article-meta">
-      <a href="/posts/929dbc5e.html" class="article-date">
-  <time datetime="2020-05-10T11:54:32.000Z" itemprop="datePublished">2020-05-10</time>
+      <a href="/posts/8c252b1b.html" class="article-date">
+  <time datetime="2020-05-21T08:10:32.000Z" itemprop="datePublished">2020-05-21</time>
 </a>
       
   <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%BF%83%E5%BE%97/">心得</a> / <a class="article-category-link" href="/categories/%E6%95%99%E7%A8%8B/">教程</a>
+    <a class="article-category-link" href="/categories/%E6%95%99%E7%A8%8B/">教程</a>
   </div>
 
       
@@ -64,7 +64,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">211字</span>
+            <span class="post-count">261字</span>
         </span>
     </span>
 
@@ -100,22 +100,53 @@
       
 
       
-      <p>刚搭建好的谷歌服务器，通过远程软件连接可能会提示报错。<br>The client has disconnected from the server.Reason: Unable to authenticate using any of the configured authentication methods.<br>那么如何解决呢。<br>下面小编就带大家解决这个问题。<br>hhhhhhhhhh<br>一开口就知道老营销号了。</p>
+      <p>今天带大家在安卓安装git和php环境并且运行bilibili自动挂机脚本。</p>
 <a id="more"></a>
+<p>以下直接直接输入即可，遇到确定直接全部确定即可。</p>
+<h1 id="1-安装Composer"><a href="#1-安装Composer" class="headerlink" title="1.安装Composer"></a>1.安装Composer</h1><p>1.打开Termux之后，更新packages。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pkg up</span><br></pre></td></tr></table></figure>
 
 
+<p>2.安装PHP and cURL。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pkg install curl</span><br></pre></td></tr></table></figure>
 
 
-<h1 id="1-给root用户设置密码"><a href="#1-给root用户设置密码" class="headerlink" title="1.给root用户设置密码"></a>1.给root用户设置密码</h1><p>打开谷歌浏览器自带的管理面板，输入命令：<br>1.切换至管理员</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo -i</span><br></pre></td></tr></table></figure>
-<p>2.设置密码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">passwd</span><br></pre></td></tr></table></figure>
-<h1 id="2-开启SSH权限"><a href="#2-开启SSH权限" class="headerlink" title="2.开启SSH权限"></a>2.开启SSH权限</h1><p>1.编辑SSH配置文件/etc/ssh/sshd_config</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi &#x2F;etc&#x2F;ssh&#x2F;sshd_config</span><br></pre></td></tr></table></figure>
-<p>2.修改下面两项</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">PermitRootLogin yes           &#x2F;&#x2F;默认为no，需要开启root用户访问改为yes</span><br><span class="line">PasswordAuthentication yes    &#x2F;&#x2F;默认为no，改为yes开启密码登陆</span><br></pre></td></tr></table></figure>
-<h1 id="3-重启ssh服务"><a href="#3-重启ssh服务" class="headerlink" title="3.重启ssh服务"></a>3.重启ssh服务</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;etc&#x2F;init.d&#x2F;ssh restart</span><br></pre></td></tr></table></figure>
-<h2 id="然后就可以通过远程软件连接了"><a href="#然后就可以通过远程软件连接了" class="headerlink" title="然后就可以通过远程软件连接了"></a>然后就可以通过远程软件连接了</h2>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pkg install php</span><br></pre></td></tr></table></figure>
+
+
+<p>3.安装 PHP Composer。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -sS https:&#x2F;&#x2F;getcomposer.org&#x2F;installer | php -- --install-dir&#x3D;&#x2F;data&#x2F;data&#x2F;com.termux&#x2F;files&#x2F;usr&#x2F;bin --filename&#x3D;composer</span><br></pre></td></tr></table></figure>
+
+
+<p>4.检查是否成功。执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">composer</span><br></pre></td></tr></table></figure>
+
+<p>提示如图</p>
+<p><img src="https://gitee.com/lNeverl/pic/raw/master/20200521162328.png" alt=""></p>
+<h1 id="2-安装git"><a href="#2-安装git" class="headerlink" title="2.安装git"></a>2.安装git</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pkg install git</span><br></pre></td></tr></table></figure>
+
+<h1 id="3-使用github的项目bilihelper"><a href="#3-使用github的项目bilihelper" class="headerlink" title="3.使用github的项目bilihelper"></a>3.使用github的项目<a href="https://github.com/lkeme/BiliHelper-personal" target="_blank" rel="noopener">bilihelper</a></h1><p>1.下载（克隆）项目代码，初始化项目。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;lkeme&#x2F;BiliHelper-personal.git</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd BiliHelper-personal&#x2F;conf</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp user.conf.example user.conf</span><br></pre></td></tr></table></figure>
+
+
+<p>2.使用 composer 工具进行安装。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">composer install</span><br></pre></td></tr></table></figure>
+
+<p>3.按照<a href="https://github.com/lkeme/BiliHelper-personal/wiki/%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E8%AF%A6%E8%A7%A3" target="_blank" rel="noopener">说明</a>修改配置文件 user.conf</p>
+<p><strong>默认只需填写帐号密码，按需求开启其他功能即可</strong></p>
+<p>（使用vi指令，很简单，不会的百度）<br>4.最后回到BiliHelper-personal文件下。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;data&#x2F;data&#x2F;com.termux&#x2F;files&#x2F;home&#x2F;BiliHelper-personal</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php index.php</span><br></pre></td></tr></table></figure>
+
+
+<p>运行成功。</p>
+
       
       <!-- reward -->
       
@@ -169,14 +200,14 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://yoursite.com/posts/929dbc5e.html" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=http://yoursite.com/posts/8c252b1b.html" alt="微信分享二维码">
     </div>
 </div>
 
 <div id="share-mask"></div>
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%BF%83%E5%BE%97/" rel="tag">心得</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%99%E7%A8%8B/" rel="tag">教程</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Composer/" rel="tag">Composer</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/bilibli%E6%8C%82%E6%9C%BA/" rel="tag">bilibli挂机</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/php/" rel="tag">php</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/temux/" rel="tag">temux</a></li></ul>
 
 
     </footer>
@@ -187,19 +218,10 @@
   
   <nav class="article-nav">
     
-      <a href="/posts/8c252b1b.html" class="article-nav-link">
-        <strong class="article-nav-caption">上一篇</strong>
-        <div class="article-nav-title">
-          
-            如何在安装上实现bilibili挂机脚本（php环境）
-          
-        </div>
-      </a>
     
-    
-      <a href="/posts/85489a28.html" class="article-nav-link">
+      <a href="/posts/929dbc5e.html" class="article-nav-link">
         <strong class="article-nav-caption">下一篇</strong>
-        <div class="article-nav-title">linux学习笔记(1)-系统分区结构</div>
+        <div class="article-nav-title">解决远程软件无法连接到谷歌服务器的问题</div>
       </a>
     
   </nav>
