@@ -49,6 +49,10 @@
 
 
 <p>运行成功。</p>
+<p>可以利用这个指令把导入的conf文件复制过去</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cp &#x2F;data&#x2F;data&#x2F;com.termux&#x2F;files&#x2F;home&#x2F;downloads&#x2F;user.conf &#x2F;data&#x2F;data&#x2F;com.termux&#x2F;files&#x2F;home&#x2F;BiliHelper-personal&#x2F;conf&#x2F;user.conf</span><br></pre></td></tr></table></figure>
+
+
 ]]></content>
       <categories>
         <category>教程</category>
